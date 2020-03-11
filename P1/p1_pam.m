@@ -6,13 +6,8 @@ b = rand(1,1000000)>0.5;
 
 %% Introducimos valor de k y sqrt_ep
 k = 2;
-sqrt_ep = 1;
 
 M = 2^k;
-
-%% Introducimos calculo de Es y generamos Eb
-Es = ((M^2)-1)/3;
-Eb = Es/k;
 
 
 %% Calculamos el vector de datos a transmitir
@@ -21,8 +16,12 @@ simb = bi2de(simb.', 'left-msb');
 
 
 %% Generamos el vector de símbolos a transmitir
-modulation_values = mpam(M, sqrt_ep); %% Aquí ajustamos la modulación que 
+modulation_values = mpam(M); %% Aquí ajustamos la modulación que 
                                        %  queremos aplicar
+                                       
+%% Calculamos empiricamente Es y generamos Eb
+Es = mean(abs(modulation_values).^2);
+Eb = Es/k;
 
 simb_sent = zeros(1, length(simb)); % Preasignamos el espacio
 for ii = 1:length(simb);
