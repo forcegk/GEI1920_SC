@@ -32,9 +32,9 @@ ebn0   = 10^(ebn0db/10);
 n0 = (Eb / ebn0);
 
 %% Generamos el AWGN
-%noise = sqrt(n0/2)*randn(size(simb_sent));
+noise = sqrt(n0/2)*randn(size(simb_sent));
 
-noise = sqrt(n0/2)*(randn(size(simb_sent))+1j*randn(size(simb_sent)));
+%noise = sqrt(n0/2)*(randn(size(simb_sent))+1j*randn(size(simb_sent)));
 
 
 %% %% %% %% TRANSMITIMOS EL VECTOR %% %% %% %%
