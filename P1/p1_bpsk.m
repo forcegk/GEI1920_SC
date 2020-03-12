@@ -57,6 +57,7 @@ b_recv = reshape(b_recv.', [], k*size(b_recv, 1));
 
 %% Calculamos los bits que son diferentes
 b_diff = b ~= b_recv;
+
 error_cnt = sum(b_diff);
 ber =  error_cnt / length(b_recv);
 
