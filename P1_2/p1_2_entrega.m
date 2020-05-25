@@ -54,7 +54,6 @@ end
 
 BER_idx_qpsk = BER_idx_qpsk + 1;
 
-
 %% Transmitimos para Hamming
 % Código Hamming
 k = 4;
@@ -175,7 +174,6 @@ for ii = EbN0dB_cnt;
 end
 
 BER_idx_16qam = BER_idx_16qam + 1;
-
 
 %% Transmitimos para Hamming
 % Código Hamming
