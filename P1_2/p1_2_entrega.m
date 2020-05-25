@@ -17,13 +17,13 @@ addpath('./stages/modulate');
 addpath('./stages/transmit');
 
 %% Variables generales
-% Bit stream
+% Bit stream length
 n_bits = 1000000;
 
 %% Variables de control
 EbN0dB_cnt = 0:15;
-BER_psk = zeros(5, size(EbN0dB_cnt, 2));
-BER_qam = zeros(5, size(EbN0dB_cnt, 2));
+BER_qpsk = zeros(5, size(EbN0dB_cnt, 2));
+BER_16qam = zeros(5, size(EbN0dB_cnt, 2));
 
 
 %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %%
@@ -33,7 +33,7 @@ BER_qam = zeros(5, size(EbN0dB_cnt, 2));
 %% Variables de modulación
 M = 4;
 %% Inicializamos variables de control
-BER_idx = 1;
+BER_idx_qpsk = 1;
 
 %% Transmitimos sin Hamming
 for ii = EbN0dB_cnt;
@@ -42,7 +42,6 @@ for ii = EbN0dB_cnt;
     [simb_stream, eb] = modulate_psk(bit_stream, M, true);
     simb_stream_awgn = transmit_awgn(simb_stream, eb, ii, 1, 1, true);
     simb_stream_recv = demodulate_psk(simb_stream_awgn, M, true);
-    %bit_stream_recv = decode_crop(simb_stream_recv, n_bits);
     bit_stream_recv = simb_stream_recv;
     
     % Calculamos los bits que son diferentes
@@ -50,10 +49,10 @@ for ii = EbN0dB_cnt;
     err_cnt = sum(bit_stream_diff);
 
     % Guardamos el BER
-    BER_psk(BER_idx, ii+1) = err_cnt / length(bit_stream_diff);
+    BER_qpsk(BER_idx_qpsk, ii+1) = err_cnt / length(bit_stream_diff);
 end
 
-BER_idx = BER_idx + 1;
+BER_idx_qpsk = BER_idx_qpsk + 1;
 
 
 %% Transmitimos para Hamming
@@ -74,10 +73,10 @@ for ii = EbN0dB_cnt;
     err_cnt = sum(bit_stream_diff);
 
     % Guardamos el BER
-    BER_psk(BER_idx, ii+1) = err_cnt / length(bit_stream_diff);
+    BER_qpsk(BER_idx_qpsk, ii+1) = err_cnt / length(bit_stream_diff);
 end
 
-BER_idx = BER_idx + 1;
+BER_idx_qpsk = BER_idx_qpsk + 1;
 
 %% Transmitimos para Convolucional de Ejemplo
 % Código Conv
@@ -97,10 +96,10 @@ for ii = EbN0dB_cnt;
     err_cnt = sum(bit_stream_diff);
 
     % Guardamos el BER
-    BER_psk(BER_idx, ii+1) = err_cnt / length(bit_stream_diff);
+    BER_qpsk(BER_idx_qpsk, ii+1) = err_cnt / length(bit_stream_diff);
 end
 
-BER_idx = BER_idx + 1;
+BER_idx_qpsk = BER_idx_qpsk + 1;
 
 %% Transmitimos para Convolucional Catastrófico
 % Código Conv
@@ -120,15 +119,15 @@ for ii = EbN0dB_cnt;
     err_cnt = sum(bit_stream_diff);
 
     % Guardamos el BER
-    BER_psk(BER_idx, ii+1) = err_cnt / length(bit_stream_diff);
+    BER_qpsk(BER_idx_qpsk, ii+1) = err_cnt / length(bit_stream_diff);
 end
 
-BER_idx = BER_idx + 1;
+BER_idx_qpsk = BER_idx_qpsk + 1;
 
 %% Transmitimos para Convolucional Mejorado
 % Código Conv
-constraint_length = 3;
-code_generator = [7 5 6]; % correcto
+constraint_length = 4;
+code_generator = [17 15 11]; % mejorado (dfree: 9 vs dfree: 7)
 for ii = EbN0dB_cnt;
     % Pasamos por todas las fases
     bit_stream = generate_bit_stream(n_bits);
@@ -143,10 +142,10 @@ for ii = EbN0dB_cnt;
     err_cnt = sum(bit_stream_diff);
 
     % Guardamos el BER
-    BER_psk(BER_idx, ii+1) = err_cnt / length(bit_stream_diff);
+    BER_qpsk(BER_idx_qpsk, ii+1) = err_cnt / length(bit_stream_diff);
 end
 
-BER_idx = BER_idx + 1;
+BER_idx_qpsk = BER_idx_qpsk + 1;
 
 
 %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %%
@@ -156,7 +155,7 @@ BER_idx = BER_idx + 1;
 %% Variables de modulación
 M = 16;
 %% Inicializamos variables de control
-BER_idx = 1;
+BER_idx_16qam = 1;
 
 %% Transmitimos sin Hamming
 for ii = EbN0dB_cnt;
@@ -165,7 +164,6 @@ for ii = EbN0dB_cnt;
     [simb_stream, eb] = modulate_qam(bit_stream, M, true);
     simb_stream_awgn = transmit_awgn(simb_stream, eb, ii, 1, 1, true);
     simb_stream_recv = demodulate_qam(simb_stream_awgn, M, true);
-    %bit_stream_recv = decode_crop(simb_stream_recv, n_bits);
     bit_stream_recv = simb_stream_recv;
     
     % Calculamos los bits que son diferentes
@@ -173,10 +171,10 @@ for ii = EbN0dB_cnt;
     err_cnt = sum(bit_stream_diff);
 
     % Guardamos el BER
-    BER_qam(BER_idx, ii+1) = err_cnt / length(bit_stream_diff);
+    BER_16qam(BER_idx_16qam, ii+1) = err_cnt / length(bit_stream_diff);
 end
 
-BER_idx = BER_idx + 1;
+BER_idx_16qam = BER_idx_16qam + 1;
 
 
 %% Transmitimos para Hamming
@@ -197,10 +195,10 @@ for ii = EbN0dB_cnt;
     err_cnt = sum(bit_stream_diff);
 
     % Guardamos el BER
-    BER_qam(BER_idx, ii+1) = err_cnt / length(bit_stream_diff);
+    BER_16qam(BER_idx_16qam, ii+1) = err_cnt / length(bit_stream_diff);
 end
 
-BER_idx = BER_idx + 1;
+BER_idx_16qam = BER_idx_16qam + 1;
 
 %% Transmitimos para Convolucional de Ejemplo
 % Código Conv
@@ -220,10 +218,10 @@ for ii = EbN0dB_cnt;
     err_cnt = sum(bit_stream_diff);
 
     % Guardamos el BER
-    BER_qam(BER_idx, ii+1) = err_cnt / length(bit_stream_diff);
+    BER_16qam(BER_idx_16qam, ii+1) = err_cnt / length(bit_stream_diff);
 end
 
-BER_idx = BER_idx + 1;
+BER_idx_16qam = BER_idx_16qam + 1;
 
 %% Transmitimos para Convolucional Catastrófico
 % Código Conv
@@ -243,15 +241,15 @@ for ii = EbN0dB_cnt;
     err_cnt = sum(bit_stream_diff);
 
     % Guardamos el BER
-    BER_qam(BER_idx, ii+1) = err_cnt / length(bit_stream_diff);
+    BER_16qam(BER_idx_16qam, ii+1) = err_cnt / length(bit_stream_diff);
 end
 
-BER_idx = BER_idx + 1;
+BER_idx_16qam = BER_idx_16qam + 1;
 
 %% Transmitimos para Convolucional Mejorado
 % Código Conv
-constraint_length = 3;
-code_generator = [7 5 6]; % correcto
+constraint_length = 4;
+code_generator = [17 15 11]; % mejorado (dfree: 9 vs dfree: 7)
 for ii = EbN0dB_cnt;
     % Pasamos por todas las fases
     bit_stream = generate_bit_stream(n_bits);
@@ -266,17 +264,17 @@ for ii = EbN0dB_cnt;
     err_cnt = sum(bit_stream_diff);
 
     % Guardamos el BER
-    BER_qam(BER_idx, ii+1) = err_cnt / length(bit_stream_diff);
+    BER_16qam(BER_idx_16qam, ii+1) = err_cnt / length(bit_stream_diff);
 end
 
-BER_idx = BER_idx + 1;
+BER_idx_16qam = BER_idx_16qam + 1;
 
 
 %% Representamos los BER empíricos para QPSK
 figure();
 
-for ii = 1:BER_idx-1;
-    semilogy(EbN0dB_cnt, BER_psk(ii,:), 'o-');
+for ii = 1:BER_idx_qpsk-1;
+    semilogy(EbN0dB_cnt, BER_qpsk(ii,:), 'o-');
     hold on;
 end
 clear ii;
@@ -295,8 +293,8 @@ hold off;
 %% Representamos los BER empíricos para 16-QAM
 figure();
 
-for ii = 1:BER_idx-1;
-    semilogy(EbN0dB_cnt, BER_qam(ii,:), 'o-');
+for ii = 1:BER_idx_16qam-1;
+    semilogy(EbN0dB_cnt, BER_16qam(ii,:), 'o-');
     hold on;
 end
 clear ii;
@@ -311,14 +309,3 @@ grid on;
 
 legend('SIN CORRECCIÓN', 'HAMMING', 'CONVOLUCIONAL-EJEMPLO', 'CONVOLUCIONAL-CATASTRÓFICO', 'CONVOLUCIONAL-MEJORADO');
 hold off;
-
-
-
-
-
-
-
-
-
-
-
