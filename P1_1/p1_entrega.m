@@ -8,8 +8,9 @@ close all;
 clearvars;
 
 %% Añadimos los fuentes que me encontré por ahí...
-addpath('./comm');
-addpath('./commobsolete');
+% UPDATE NO LONGER NEEDED (on Windows at least)
+%addpath('./comm');
+%addpath('./commobsolete');
 
 idx = 0:20;
 
