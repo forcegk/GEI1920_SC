@@ -21,7 +21,7 @@ addpath('./stages/transmit');
 n_bits = 1000000;
 
 %% Variables de control
-EbN0dB_cnt = 0:25;
+EbN0dB_cnt = 0:15;
 BER_psk = zeros(5, size(EbN0dB_cnt, 2));
 BER_qam = zeros(5, size(EbN0dB_cnt, 2));
 
@@ -281,6 +281,9 @@ for ii = 1:BER_idx-1;
 end
 clear ii;
 
+xlim([min(EbN0dB_cnt) max(EbN0dB_cnt)]);
+ylim([10^(-7) 10^0]);
+
 title('BER Empíricos para QPSK (Gray Mapping)');
 xlabel('E_{b}/N_{0} (dB)');
 ylabel('BER');
@@ -297,6 +300,9 @@ for ii = 1:BER_idx-1;
     hold on;
 end
 clear ii;
+
+xlim([min(EbN0dB_cnt) max(EbN0dB_cnt)]);
+ylim([10^(-7) 10^0]);
 
 title('BER Empíricos para 16-QAM (Gray Mapping)');
 xlabel('E_{b}/N_{0} (dB)');
