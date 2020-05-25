@@ -1,18 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                        %
 %           MODULO DEMODULACIÓN. P1_2 SC. ALONSO RODRIGUEZ 2020          %
-%                -> PSK                                                  %
+%                -> QAM                                                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function bit_stream_out = demodulate_psk(simb_stream_in, M, is_gray)
+function bit_stream_out = demodulate_qam(simb_stream_in, M, is_gray)
     %% Calculamos k
     k = log2(M);
     
     %%  Demodulamos
     if is_gray;
-        recv = pskdemod(simb_stream_in, M, 0, 'GRAY');
+        recv = qamdemod(simb_stream_in, M, 0, 'GRAY');
     else
-        recv = pskdemod(simb_stream_in, M);
+        recv = qamdemod(simb_stream_in, M);
     end
 
     %% Reconstruimos el vector original

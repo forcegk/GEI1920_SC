@@ -15,7 +15,7 @@ function [bit_stream_out, num_errors] = decode_hamming(bit_stream_in, k, n)
          
         %% Eliminamos padding a la entrada
         %bit_stream_in = [ bit_stream_in  zeros(1, n-mod(size(bit_stream_in, 2), n)) ];
-        bit_stream_in = bit_stream_in(1:size(bit_stream_in,2)-mod(size(bit_stream_in, 2), n));
+        %bit_stream_in = bit_stream_in(1:size(bit_stream_in,2)-mod(size(bit_stream_in, 2), n));
         
         %% Partimos bit_stream_in en bloques de n bits
         words_in = reshape(bit_stream_in, n, []).';
