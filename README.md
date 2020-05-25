@@ -1,7 +1,7 @@
 # GEI1920_SC
 
 - [x] Práctica 1.1
-- [ ] Práctica 1.2
+- [x] Práctica 1.2
 - [x] Práctica 2.1
 - [x] Práctica 2.2
 
