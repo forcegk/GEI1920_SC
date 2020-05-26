@@ -6,5 +6,5 @@
 - [x] Práctica 2.2
 
 - [x] TGR 1
-- [ ] TGR 2
+- [x] TGR 2
 - [x] TGR 3
